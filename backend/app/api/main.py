@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from app.api.http_router import router as http_router
 from app.api.ws import router as ws_router
 import importlib
 import pkgutil
@@ -36,7 +35,6 @@ async def startup_event():
     print("--- Submodule discovery complete ---")
 
 
-app.include_router(http_router, prefix="/api")
 app.include_router(ws_router)
 
 if __name__ == "__main__":
