@@ -838,6 +838,50 @@
             "assistant": "Suurepärane!\n\nTeie broneering on salvestatud ja ootab kinnitust. Broneeringu number: e8a4be8c"
           }
         ]
+      },
+      {
+        "client_id": "8488e16b-b810-415b-9774-a6fd1557049c",
+        "started_at": "2025-11-08T12:36:00.222139",
+        "last_interaction": "2025-11-08T12:36:08.984040",
+        "messages": [
+          {
+            "timestamp": "2025-11-08T12:36:00.222139",
+            "user": "Tere.",
+            "assistant": "Tere! Kuidas ma saan teid aidata?"
+          },
+          {
+            "timestamp": "2025-11-08T12:36:08.984040",
+            "user": " Ma tahaksin broneerida aega.",
+            "assistant": "Millist teenust te soovite broneerida? Juukselõikus, massaaž või konsultatsioon?"
+          }
+        ]
+      },
+      {
+        "client_id": "98585910-78ec-46f6-aacd-765c8f645ba1",
+        "started_at": "2025-11-08T12:37:39.732497",
+        "last_interaction": "2025-11-08T12:37:51.861990",
+        "messages": [
+          {
+            "timestamp": "2025-11-08T12:37:39.732497",
+            "user": "Kui kaua juukselõikus kestab?",
+            "assistant": "Juukselõikus kestab 30 minutit."
+          },
+          {
+            "timestamp": "2025-11-08T12:37:39.769168",
+            "user": "Kui kaua juukselõikus kestab?",
+            "assistant": "Juukselõikus kestab 30 minutit."
+          },
+          {
+            "timestamp": "2025-11-08T12:37:51.383725",
+            "user": " Ja palju juukse juukse juukse juukse maksab?",
+            "assistant": "Juukselõikus maksab 25€."
+          },
+          {
+            "timestamp": "2025-11-08T12:37:51.861990",
+            "user": " Ja palju juukse juukse juukse juukse maksab?",
+            "assistant": "Juukselõikus maksab 25€.\n```\nTere! Millist teenust te soovite broneerida? Valikud on: juukselõikus, massaaž või konsultatsioon.\n```"
+          }
+        ]
       }
     ]
   },

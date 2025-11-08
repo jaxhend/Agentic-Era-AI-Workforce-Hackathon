@@ -3,7 +3,7 @@ import json
 import logging
 from pathlib import Path
 from typing import Any, List, Optional, Tuple
-
+from app.core.config import FAQ_URL
 from ..services import ranker, llm_client
 
 _LOGGER = logging.getLogger(__name__)
@@ -11,8 +11,8 @@ _LOGGER = logging.getLogger(__name__)
 # Prefer a top-level faq.json (project-level) if present; otherwise use packaged data/faq.json
 _THIS_FILE = Path(__file__).resolve()
 _PROJECT_ROOT = _THIS_FILE.parents[2]  # backend/
-_PREFERRED_FAQ = _PROJECT_ROOT / "faq.json"
-_PACKAGED_FAQ = _THIS_FILE.parents[1] / "data" / "faq.json"  # app/data/faq.json
+_PREFERRED_FAQ = _PROJECT_ROOT / FAQ_URL
+_PACKAGED_FAQ = _THIS_FILE.parents[1] / "data" / FAQ_URL  # app/data/faq.json
 
 _FAQ_PATHS = [_PREFERRED_FAQ, _PACKAGED_FAQ]
 _DEFAULT_NO_ANSWER = "Vabandust, vastust ei leidnud."

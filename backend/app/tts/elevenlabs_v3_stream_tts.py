@@ -2,6 +2,7 @@
 import aiohttp
 from app.bus import bus
 from app.schemas.events import ManagerAnswer, TTSAudio
+from app.api.ws import active_connections
 
 
 class ElevenLabsHTTPStream:
@@ -29,7 +30,6 @@ class ElevenLabsHTTPStream:
         """
         Stream audio from ElevenLabs API directly to the client.
         """
-        from app.api.ws import active_connections
 
         url = f"https://api.elevenlabs.io/v1/text-to-speech/{self.voice_id}/stream"
         if self.output_format:

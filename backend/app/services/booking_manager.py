@@ -6,8 +6,9 @@ import os
 from datetime import datetime
 from typing import List, Dict, Any, Optional
 from uuid import UUID, uuid4
+from app.core.config import DB_URL
 
-CONTEXT_FILE = os.path.join(os.path.dirname(__file__), "..", "..", "context_database.json")
+CONTEXT_FILE = os.path.join(os.path.dirname(__file__), "..", "..", DB_URL)
 
 def load_database() -> Dict[str, Any]:
     """Load the entire database"""

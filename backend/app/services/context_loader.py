@@ -4,6 +4,7 @@ Context loader utility for loading business data from JSON file
 import json
 import os
 from typing import Dict, Any
+from app.core.config import DB_URL
 
 _context_cache: Dict[str, Any] = {}
 
@@ -14,7 +15,7 @@ def load_context() -> Dict[str, Any]:
     if _context_cache:
         return _context_cache
 
-    context_file = os.path.join(os.path.dirname(__file__), "..", "..", "context_database.json")
+    context_file = os.path.join(os.path.dirname(__file__), "..", "..", DB_URL)
 
     try:
         with open(context_file, 'r', encoding='utf-8') as f:
