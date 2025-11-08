@@ -17,7 +17,7 @@ const TranscriptDisplay = ({ transcript, intent }: TranscriptDisplayProps) => {
     <div className="w-full max-w-2xl space-y-4 animate-fade-in">
       {transcript && (
         <Card className="p-6 shadow-[var(--shadow-card)]">
-          <h3 className="text-sm font-medium text-muted-foreground mb-2">You said:</h3>
+          <h3 className="text-sm font-medium text-muted-foreground mb-2">Latest message:</h3>
           <p className="text-lg text-foreground">{transcript}</p>
         </Card>
       )}

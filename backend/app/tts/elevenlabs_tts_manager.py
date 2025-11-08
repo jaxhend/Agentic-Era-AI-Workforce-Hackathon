@@ -1,13 +1,11 @@
 from app.bus import bus
-from app.core.config import ELEVENLABS_API_KEY
 from app.schemas.events import ManagerAnswer
 from app.tts.elevenlabs_v3_parallel_tts import V3ParallelPrefetchTTS
 from app.tts.elevenlabs_v3_stream_tts import ElevenLabsHTTPStream
-import os
-
-VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID", "tIFPE2y0DAU6xfZn3Fka")
-LANGUAGE_CODE = os.getenv("ELEVENLABS_LANGUAGE", "et")
-MODEL_ID = os.getenv("ELEVENLABS_MODEL", "eleven_v3")
+from app.core.config import ELEVENLABS_VOICE_ID as VOICE_ID
+from app.core.config import ELEVENLABS_LANGUAGE as LANGUAGE_CODE
+from app.core.config import ELEVENLABS_MODEL as MODEL_ID
+from app.core.config import ELEVENLABS_API_KEY as ELEVENLABS_API_KEY
 
 
 def _is_short(text: str) -> bool:
