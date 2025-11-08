@@ -1,4 +1,4 @@
-# app/tts/elevenlabs_http_stream.py
+# app/tts/elevenlabs_v3_stream_tts.py
 import aiohttp
 from app.bus import bus
 from app.schemas.events import ManagerAnswer, TTSAudio

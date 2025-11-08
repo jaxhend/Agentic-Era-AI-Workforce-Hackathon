@@ -1,8 +1,8 @@
 from app.bus import bus
 from app.core.config import ELEVENLABS_API_KEY
 from app.schemas.events import ManagerAnswer
-from app.tts.v3_parallel_prefetch import V3ParallelPrefetchTTS
-from app.tts.elevenlabs_http_stream import ElevenLabsHTTPStream
+from app.tts.elevenlabs_v3_parallel_tts import V3ParallelPrefetchTTS
+from app.tts.elevenlabs_v3_stream_tts import ElevenLabsHTTPStream
 import os
 
 VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID", "tIFPE2y0DAU6xfZn3Fka")
