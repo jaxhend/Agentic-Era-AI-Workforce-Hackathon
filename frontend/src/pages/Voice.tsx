@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import VoiceButton from "@/components/VoiceButton";
 import VoiceVisualizer from "@/components/VoiceVisualizer";
 import TranscriptDisplay from "@/components/TranscriptDisplay";
 import ConversationHistory from "@/components/ConversationHistory";
 import Navbar from "@/components/Navbar";
+import { useVoiceSocket } from "@/hooks/use-voice-socket";
 
 interface Message {
   role: "user" | "assistant";
@@ -12,53 +13,51 @@ interface Message {
 }
 
 const Voice = () => {
-  const [isListening, setIsListening] = useState(false);
-  const [transcript, setTranscript] = useState("");
-  const [intent, setIntent] = useState<any>(null);
+  const {
+    isListening,
+    transcript,
+    startListening,
+    stopListening,
+    connectSocket,
+    sendText,
+  } = useVoiceSocket();
   const [messages, setMessages] = useState<Message[]>([]);
+  const [intent, setIntent] = useState<any>(null);
+
+  useEffect(() => {
+    connectSocket();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const getCurrentTime = () => {
     const now = new Date();
-    return now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    return now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
   };
 
   const handleVoiceClick = () => {
-    setIsListening(!isListening);
-    
-    // Simulate voice recognition for demo
-    if (!isListening) {
-      setTimeout(() => {
-        const userMessage = "I'd like to book a haircut appointment for tomorrow at 2 PM in downtown location.";
-        setTranscript(userMessage);
-        
-        // Add user message to conversation
-        setMessages(prev => [...prev, {
-          role: "user",
-          content: userMessage,
-          timestamp: getCurrentTime()
-        }]);
-        
-        setIntent({
-          name: "John Doe",
-          time: "Tomorrow at 2:00 PM",
-          service: "Haircut",
-          location: "Downtown Branch"
-        });
-        
-        // Simulate AI response
-        setTimeout(() => {
-          const aiResponse = "I understand you'd like to book a haircut appointment. I've extracted the following details: tomorrow at 2:00 PM at our Downtown Branch. Would you like to proceed with this booking?";
-          setMessages(prev => [...prev, {
-            role: "assistant",
-            content: aiResponse,
-            timestamp: getCurrentTime()
-          }]);
-        }, 1000);
-        
-        setIsListening(false);
-      }, 3000);
+    if (isListening) {
+      stopListening();
+    } else {
+      startListening();
     }
   };
+
+  useEffect(() => {
+    if (transcript) {
+      const userMessage = transcript;
+      const newMessages: Message[] = [
+        ...messages,
+        {
+          role: "user",
+          content: userMessage,
+          timestamp: getCurrentTime(),
+        },
+      ];
+      setMessages(newMessages);
+      // The transcript is now sent via the websocket in the hook, so no need to send it here
+      // sendText(transcript);
+    }
+  }, [transcript]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -75,7 +74,7 @@ const Voice = () => {
           </div>
 
           <VoiceButton isListening={isListening} onClick={handleVoiceClick} />
-          
+
           <VoiceVisualizer isActive={isListening} />
 
           <TranscriptDisplay transcript={transcript} intent={intent} />
