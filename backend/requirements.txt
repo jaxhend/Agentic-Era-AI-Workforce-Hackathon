@@ -1,6 +1,8 @@
-fastapi
-uvicorn
-pydantic
-shortuuid
-elevenlabs
-
+fastapi==0.121.0
+uvicorn==0.38.0
+pydantic==2.12.4
+shortuuid==1.0.13
+elevenlabs==2.22.0
+httpx==0.28.1
+python-dotenv==1.2.1
+rapidfuzz==3.14.3
