@@ -68,6 +68,10 @@ The models for this project run on a high-performance compute environment genero
 
 ### Presentation Video
 
+https://github.com/user-attachments/assets/54d2c6e1-ad69-450d-af15-588f18930f5d
+
+
+
 **[Watch the 2-Minute Pitch & Demo on YouTube](https://www.youtube.com/watch?v=gE2C2v7KWaQ)**  
 A concise overview showcasing the voice agent’s concept, key features, and real-time performance in action.
 
