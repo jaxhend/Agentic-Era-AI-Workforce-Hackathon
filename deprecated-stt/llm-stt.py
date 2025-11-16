@@ -1,3 +1,5 @@
+# The idea was to use GEMINI-2.5-FLASH-LIVE for free real-time speech-to-text, but it turned out significantly slower compared to the STT API.
+
 import asyncio
 import os
 import traceback
