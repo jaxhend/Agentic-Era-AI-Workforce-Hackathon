@@ -1,10 +1,11 @@
 # app/tts/elevenlabs_v3_parallel_tts.py
 import asyncio
 import contextlib
-import aiohttp
 import io
 import re
 from typing import List, Tuple, Dict
+
+import aiohttp
 
 from app.bus import bus
 from app.schemas.events import ManagerAnswer, TTSAudio
@@ -166,6 +167,11 @@ class V3ParallelPrefetchTTS:
         # Lõpu-signal
         try:
             if event.client_id in active_connections:
-                await active_connections[event.client_id].send_json({"isFinal": True})
+                await active_connections[event.client_id].send_json({
+                    "client_id": str(event.client_id),
+                    "role": "assistant",
+                    "text": event.text,
+                    "isFinal": True
+                })
         except Exception as se:
             print(f"[v3-prefetch] could not send isFinal: {se}")

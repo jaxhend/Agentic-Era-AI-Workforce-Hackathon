@@ -1,8 +1,9 @@
 # app/tts/elevenlabs_v3_stream_tts.py
 import aiohttp
+
+from app.api.ws import active_connections
 from app.bus import bus
 from app.schemas.events import ManagerAnswer, TTSAudio
-from app.api.ws import active_connections
 
 
 class ElevenLabsHTTPStream:
@@ -97,7 +98,6 @@ class ElevenLabsHTTPStream:
                             "isFinal": True
                         })
 
-                    # ✅ Also publish to bus (so any other subscribers can use it)
                     await bus.publish(
                         "tts.audio",
                         TTSAudio(

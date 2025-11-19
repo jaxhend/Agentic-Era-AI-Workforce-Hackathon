@@ -6,9 +6,11 @@ import os
 from datetime import datetime
 from typing import List, Dict, Any, Optional
 from uuid import UUID, uuid4
+
 from app.core.config import DB_URL
 
 CONTEXT_FILE = os.path.join(os.path.dirname(__file__), "..", "..", DB_URL)
+
 
 def load_database() -> Dict[str, Any]:
     """Load the entire database"""
@@ -18,6 +20,7 @@ def load_database() -> Dict[str, Any]:
     except Exception as e:
         print(f"Error loading database: {e}")
         return {}
+
 
 def save_database(data: Dict[str, Any]) -> bool:
     """Save the entire database"""
@@ -29,17 +32,18 @@ def save_database(data: Dict[str, Any]) -> bool:
         print(f"Error saving database: {e}")
         return False
 
+
 def create_booking(
-    client_id: UUID,
-    service_id: str,
-    service_name: str,
-    date_time: str,
-    location_id: str,
-    location_name: str,
-    customer_name: str,
-    customer_phone: str,
-    customer_email: Optional[str] = None,
-    notes: Optional[str] = None
+        client_id: UUID,
+        service_id: str,
+        service_name: str,
+        date_time: str,
+        location_id: str,
+        location_name: str,
+        customer_name: str,
+        customer_phone: str,
+        customer_email: Optional[str] = None,
+        notes: Optional[str] = None
 ) -> Optional[str]:
     """
     Create a new pending booking
@@ -81,20 +85,24 @@ def create_booking(
         return booking_id
     return None
 
+
 def get_pending_bookings() -> List[Dict[str, Any]]:
     """Get all pending bookings"""
     db = load_database()
     return db.get("bookings", {}).get("pending", [])
+
 
 def get_confirmed_bookings() -> List[Dict[str, Any]]:
     """Get all confirmed bookings"""
     db = load_database()
     return db.get("bookings", {}).get("confirmed", [])
 
+
 def get_cancelled_bookings() -> List[Dict[str, Any]]:
     """Get all cancelled bookings"""
     db = load_database()
     return db.get("bookings", {}).get("cancelled", [])
+
 
 def get_booking_by_id(booking_id: str) -> Optional[Dict[str, Any]]:
     """Get a specific booking by ID"""
@@ -108,6 +116,7 @@ def get_booking_by_id(booking_id: str) -> Optional[Dict[str, Any]]:
                 return booking
 
     return None
+
 
 def confirm_booking(booking_id: str) -> bool:
     """
@@ -139,6 +148,7 @@ def confirm_booking(booking_id: str) -> bool:
         print(f"✅ Booking {booking_id} confirmed")
         return True
     return False
+
 
 def cancel_booking(booking_id: str, reason: Optional[str] = None) -> bool:
     """
@@ -176,6 +186,7 @@ def cancel_booking(booking_id: str, reason: Optional[str] = None) -> bool:
         return True
     return False
 
+
 def get_bookings_by_client(client_id: UUID) -> List[Dict[str, Any]]:
     """Get all bookings for a specific client"""
     db = load_database()
@@ -189,6 +200,7 @@ def get_bookings_by_client(client_id: UUID) -> List[Dict[str, Any]]:
                 result.append(booking)
 
     return result
+
 
 def format_booking_confirmation(booking_id: str) -> str:
     """Format a booking confirmation message"""
@@ -222,6 +234,7 @@ Telefon: {booking['customer_phone']}
         msg += f"\nMärkused: {booking['notes']}\n"
 
     return msg.strip()
+
 
 def get_all_bookings_ordered() -> list:
     """Return a combined list of bookings in the order: pending, confirmed, cancelled.

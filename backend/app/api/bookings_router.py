@@ -2,7 +2,6 @@
 HTTP routes for booking management
 """
 from fastapi import APIRouter, HTTPException
-from typing import List
 from pydantic import BaseModel
 
 from app.services.booking_manager import (

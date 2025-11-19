@@ -2,14 +2,15 @@ import asyncio
 import os
 from typing import AsyncGenerator
 
+from google.cloud import speech_v2
+from google.cloud.speech_v2.types import cloud_speech
+
 from app.bus import bus
 from app.core.config import GOOGLE_APPLICATION_CREDENTIALS
 from app.core.config import LOCATION
 from app.core.config import PROJECT_ID
 from app.core.config import RECOGNIZER_NAME
 from app.schemas.events import ClientAudio, STTFinal, STTPartial
-from google.cloud import speech_v2
-from google.cloud.speech_v2.types import cloud_speech
 
 
 class GoogleSTT:
@@ -34,7 +35,7 @@ class GoogleSTT:
         self._audio_queue = asyncio.Queue()
         self._task = None
         self._language = language
-        self._recognizer = recognizer_path or self.RECOGNIZER   # <— use provided or fallback
+        self._recognizer = recognizer_path or self.RECOGNIZER  # <— use provided or fallback
 
         bus.subscribe("client.audio", self.on_audio_chunk)
         print(f"GoogleSTT instance created for client {client_id}")
@@ -55,9 +56,11 @@ class GoogleSTT:
         config = cloud_speech.RecognitionConfig(
             explicit_decoding_config=explicit_config,
             language_codes=["et-EE"],
-            model="chirp_3", # Using chirp model
+            model="chirp_3",  # Using chirp model
         )
-        streaming_config = cloud_speech.StreamingRecognitionConfig(config=config, streaming_features=cloud_speech.StreamingRecognitionFeatures(interim_results=True))
+        streaming_config = cloud_speech.StreamingRecognitionConfig(config=config,
+                                                                   streaming_features=cloud_speech.StreamingRecognitionFeatures(
+                                                                       interim_results=True))
 
         # First request contains the configuration
         yield cloud_speech.StreamingRecognizeRequest(
@@ -81,14 +84,13 @@ class GoogleSTT:
         print(f"Stopping Google STT for client {self.client_id}...")
         bus.subscribe("client.audio", self.on_audio_chunk)
         if self._task:
-            await self._audio_queue.put(None) # Signal the end of the audio stream
+            await self._audio_queue.put(None)  # Signal the end of the audio stream
             self._task.cancel()
             try:
                 await self._task
             except asyncio.CancelledError:
                 pass
         print(f"Google STT stopped for client {self.client_id}.")
-
 
     async def _run_stt(self):
         """The main loop for the STT process."""
@@ -111,7 +113,7 @@ class GoogleSTT:
                             STTFinal(
                                 text=transcript,
                                 client_id=self.client_id,
-                                start_ms=0, # start_ms and end_ms are not provided by the API in this mode
+                                start_ms=0,  # start_ms and end_ms are not provided by the API in this mode
                                 end_ms=0
                             ),
                         )

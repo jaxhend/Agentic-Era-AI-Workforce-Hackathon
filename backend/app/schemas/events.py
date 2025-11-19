@@ -1,6 +1,8 @@
-from pydantic import BaseModel, Field
 from typing import List, Literal
 from uuid import UUID
+
+from pydantic import BaseModel, Field
+
 
 class ClientAudio(BaseModel):
     chunk: bytes
@@ -33,11 +35,6 @@ class AgentRequest(BaseModel):
     context: dict = Field(default_factory=dict)
     client_id: UUID
 
-class AgentUpdate(BaseModel):
-    agent: str
-    text: str
-    client_id: UUID
-
 class AgentResult(BaseModel):
     agent: str
     result: dict
@@ -59,3 +56,8 @@ class Error(BaseModel):
     message: str
     client_id: UUID
 
+
+class ClientSttInit(BaseModel):
+    client_id: UUID
+    sample_rate: int
+    encoding: str

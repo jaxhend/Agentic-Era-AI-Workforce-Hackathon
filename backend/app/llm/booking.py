@@ -1,16 +1,14 @@
 import httpx
-# app/llm/agents/booking.py
-import os
 
 from app.bus import bus
 from app.core.ids import new_id
-from app.schemas.events import AgentRequest, AgentResult, ManagerAnswer
-from app.services.booking_manager import create_booking, format_booking_confirmation
+from app.schemas.events import AgentRequest, ManagerAnswer
+from app.services.booking_manager import create_booking
 from app.services.context_loader import format_context_for_llm, search_faq
 from app.services.conversation_history import format_history_for_llm, add_message_to_history
 
-from .base import Agent
-from ...core import config
+from app.llm.base import Agent
+from app.core import config
 
 # Load business context once at import
 BUSINESS_CONTEXT = format_context_for_llm()
@@ -103,6 +101,7 @@ class BookingAgent(Agent):
             full_prompt += f"Kasutaja: {event.text}\n\nAssistent:"
 
             async with httpx.AsyncClient(timeout=30.0) as client:
+                # LLM PROMPTING
                 response = await client.post(
                     config.LLM_URL,
                     headers={"Content-Type": "application/json"},
@@ -156,20 +155,6 @@ class BookingAgent(Agent):
             saved = add_message_to_history(event.client_id, event.text, response_text)
             if saved:
                 print(f"💾 Conversation saved to history")
-
-            # Send the result to the manager
-            await bus.publish("agent.result", AgentResult(
-                agent="booking",
-                result={
-                    "response": response_text,
-                    "status": "completed",
-                    "context_used": bool(faq_answer),
-                    "history_used": bool(conversation_history),
-                    "booking_created": booking_created
-                },
-                confidence=0.9,
-                client_id=event.client_id
-            ))
 
             # Send the response to the client via TTS
             await bus.publish("manager.answer", ManagerAnswer(
