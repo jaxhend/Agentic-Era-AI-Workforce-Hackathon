@@ -8,8 +8,7 @@ from starlette.websockets import WebSocketState
 
 from app.bus import bus
 from app.core.ids import new_id
-from app.schemas.events import ClientAudio, TTSAudio, ManagerAnswer, STTPartial, STTFinal, ClientSttInit, ManagerRoute, \
-    AgentRequest
+from app.schemas.events import ClientAudio, TTSAudio, ManagerAnswer, STTPartial, STTFinal, ClientSttInit, AgentRequest
 from app.stt.google_stt import GoogleSTT
 
 router = APIRouter()
